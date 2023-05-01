@@ -7,11 +7,12 @@ class PessoaSchema(BaseModel):
     id: int = 1
     nome: str = "Nome"
     email: str = "email@email.com"
+    idade: int = 27
+    cpf: str = "001.002.003-04"
 
 
 class PessoaBuscaSchema(BaseModel):
     id: int = 1
-    nome: str = "Nome"
 
 
 class ListagemPessoaSchema(BaseModel):

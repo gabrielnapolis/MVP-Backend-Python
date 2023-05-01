@@ -9,6 +9,7 @@ from model import Session, Pessoa
 from schemas import *
 from flask_cors import CORS
 
+
 info = Info(title="Minha API", version="1.0.0")
 app = OpenAPI(__name__, info=info)
 CORS(app)
@@ -35,7 +36,7 @@ def home():
     tags=[pessoa_tag],
     responses={"200": PessoaViewSchema, "409": ErrorSchema, "400": ErrorSchema},
 )
-def add_pessoa():
+def add_pessoa(form: PessoaSchema):
     """Adiciona uma pessoa à base de dados."""
     content: PessoaSchema = request.get_json()
 
@@ -75,7 +76,7 @@ def add_pessoa():
     responses={"200": ListagemPessoaSchema, "404": ErrorSchema},
 )
 def get_pessoas():
-    """Faz a busca por todas as Pessoas cadastradas
+    """Faz a busca por todas as Pessoas cadastradas""
 
     Retorna uma representação da listagem de pessoas.
     """
@@ -90,12 +91,10 @@ def get_pessoas():
 
 @app.route(
     "/pessoa/<pessoa_id>",
-    methods=["GET"],
+     methods=["GET"]
 )
 def get_pessoa(pessoa_id):
     """Faz a busca por uma Pessoa a partir do id
-
-    Retorna uma representação das pessoas e treinos associados.
     """
     session = Session()
     pessoa = session.query(Pessoa).filter(Pessoa.id == pessoa_id).first()
@@ -108,8 +107,8 @@ def get_pessoa(pessoa_id):
 
 
 @app.route(
-    "/pessoa/<pessoa_id>", 
-    methods=["DELETE"],
+    '/pessoa/<pessoa_id>', 
+    methods=["DELETE"]
 )
 def del_pessoa(pessoa_id):
     """Deleta uma Pessoa a partir do id informado.
@@ -125,3 +124,4 @@ def del_pessoa(pessoa_id):
     else:
         error_msg = "Pessoa não encontrada na base"
         return {"mesage": error_msg}, 404
+
